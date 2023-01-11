@@ -1,0 +1,70 @@
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>Welcome!</title>
+<!--    <link rel="stylesheet" href="/Styles/style.css">-->
+    <script src="server.js"></script>
+</head>
+<style>
+    *
+    {
+        font-family: Helvetica;
+        color: #444444;
+        font-size: 24px;
+        background-color: white;
+    }
+    #nametext{
+        text-align: center;
+    }
+    #name{
+        transition-duration: 500ms;
+        height: 32px;
+        width: 165px;
+        margin-left: 0.5ch;
+        margin-right: 0.5ch;
+        border-radius: 4px;
+        background-color: pink;
+        transition-timing-function: ease-in-out;
+        text-align: center;
+
+    }
+    #name:placeholder-shown{
+        background-color: pink;
+    }
+    #name:not(placeholder-shown){
+        background-color: white;
+    }
+    #name:hover{
+        width: 330px;
+    }
+    #btn{
+        font-family: Helvetica;
+        font-size: 18px;
+        vertical-align: bottom;
+        margin: 0.5ch;
+        padding-left: 3ch;
+        padding-right: 3ch;
+    }
+    #myForm{
+        text-align: center;
+    }
+</style>
+<body>
+<!-- page content -->
+<form action = '/' id = "myForm" onsubmit="myFunction()">
+    <span id="nametext">Please enter your name to continue</span>
+    <input type= "text" id="name" placeholder="Enter your name"  />
+    <input type="submit" value="get name" id='btn'  />
+    </form>
+</body>
+
+</html>
+
+
+<script>
+    function myFunction(){
+        var action_src = "http://localhost:3000/" + document.getElementById("name").value;
+        var your_form = document.getElementById('myForm');
+        your_form.action = action_src ;
+    }
+</script>

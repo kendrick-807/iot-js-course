@@ -1,0 +1,104 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Statistics</title>
+    <!--Load the AJAX API-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+
+</head>
+
+<body onload="fetching()">
+<div><canvas id="chart"></canvas></div>
+<h2 id = "averageTime"></h2>
+<script>
+    function fetching() {
+        fetch('/user_data').then(tmp => tmp.json()).then(arr => {
+            const x = arr.x;
+            const y = arr.y;
+            const diff = arr.y;
+            const time_converted = [];
+            diff.forEach(ms => {
+                const days = Math.floor(ms / (24*60*60*1000));
+                const daysms = ms % (24*60*60*1000);
+                const hours = Math.floor(daysms / (60*60*1000));
+                const hoursms = ms % (60*60*1000);
+                const minutes = Math.floor(hoursms / (60*1000));
+                const minutesms = ms % (60*1000);
+                const sec = Math.floor(minutesms / 1000);
+                time_converted.push(days + ":" + hours + ":" + minutes + ":" + sec);
+            });
+            console.log(time_converted);
+            for (let i = 0; i < x.length; ++i) {
+                const d1 = new Date(x[i]);
+                const d2 = new Date(x[i-1]);
+                if (d1.getFullYear() === d2.getFullYear()
+                    && d1.getMonth() === d2.getMonth()
+                    && d1.getDate() === d2.getDate()) {
+                    diff[i-1] += diff[1];
+                    x.splice(i, 1);
+                    diff.splice(i ,1);
+                    i--;
+                }
+                x[i] = new Date(x[i]).toString().substring(4, 21);
+
+            }
+
+            new Chart("chart", {
+                type: "bar",
+                data: {
+                    labels: arr.x,
+                    datasets: [
+                        {
+                            label: "Time used",
+                            data: arr.y,
+                            fill: false,
+                            backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(255, 159, 64)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(54, 162, 235)',
+                                'rgb(153, 102, 255)',
+                                'rgb(201, 203, 207)',
+                                'rgb(255, 99, 132)',
+                                'rgb(255, 159, 64)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(54, 162, 235)',
+                                'rgb(153, 102, 255)',
+                                'rgb(201, 203, 207)',
+                                'rgb(255, 99, 132)',
+                                'rgb(255, 159, 64)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(54, 162, 235)',
+                                'rgb(153, 102, 255)',
+                                'rgb(201, 203, 207)',
+                            ],
+                            borderColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(255, 159, 64)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(54, 162, 235)',
+                                'rgb(153, 102, 255)',
+                                'rgb(201, 203, 207)'
+                            ],
+                            borderWidth: 1
+
+                        }
+                    ]
+
+                }
+            });
+
+        })
+    }
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure site</title>
+</head>
+<body>
+<script src="/index.js" ></script>
+<!--<form action = '/message' method="post" id = "eventForm" >-->
+    <span id="nametext">Please enter your message</span>
+    <input type= "name" id="name" placeholder="Enter your message" name = "name" >
+    <button type="submit" onclick = createTask()> Add message </button>
+<!--</form>-->
+
+<script>
+    function createTask(){
+        const tasks = document.getElementById("message-container");
+
+        const task = document.createElement('DIV');
+        task.className = 'task';
+        tasks.appendChild(task);
+
+        const message = document.createElement("H1");
+        message.innerText = document.getElementById('name').value;
+        localStorage.setItem(message.innerText,JSON.stringify(message.innerText));
+        task.appendChild(message);
+
+        const checkbox = document.createElement("INPUT");
+        checkbox.setAttribute("type", "checkbox");
+        task.appendChild(checkbox);
+
+
+        localStorage.setItem("Folder1",JSON.stringify(tasks.innerHTML));
+        const checkboxs = document.createElement("checkboxs");
+
+        checkboxs.innerText = localStorage.getItem(message.innerText)
+        task.appendChild(checkboxs);
+        localStorage.getItem("Folder1");
+        // alert("localStorage (Folder1):\n" + localStorage.getItem("Folder1"));
+    }
+</script>
+
+<!--<script>-->
+<!--    function save(){-->
+<!--        var checkbox = document.getElementById('checkbox1zaal1');-->
+<!--        localStorage.setItem('checkbox1zaal1', checkbox.checked);-->
+<!--    }-->
+<!--    function load(){-->
+<!--        var checked = JSON.parse(localStorage.getItem('checkbox1zaal1'));-->
+<!--        document.getElementById("checkbox1zaal1").checked = checked;-->
+<!--    }-->
+<!--    fetch('/messages').then(res => res.json()).then( messages => {-->
+<!--        for (const Message of messages) {-->
+<!--            const messageElement = document.createElement('a')-->
+<!--            const message_container = document.getElementById('message-container')-->
+
+
+<!--            messageElement.innerHTML = `-->
+<!--                        <div class="message" >-->
+<!--                            <div class="message"><span class="name"></span><span class="field-value">${Message.userMessage}</span></div>-->
+<!--                            <div class="message checkbox"><span class="checkbox">Finished</span> </div>-->
+<!--                        </div>-->
+<!--                   `;-->
+
+
+<!--            message_container.appendChild(messageElement);-->
+<!--        }-->
+<!--    });-->
+
+
+<!--</script>-->
+<!--Previous message-->
+<!--New message input-->
+<!--Logout button-->
+<main>
+
+    <div id="message-container">
+    </div>
+</main>
+
+
+</body>
+</html>
+
+

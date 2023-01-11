@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+<!--    <link rel="stylesheet" href="/Styles/style.css">-->
+    <script type="javascript" src="server.js"></script>
+</head>
+<style>
+    *
+    {
+        font-family: Helvetica;
+        color: #444444;
+        font-size: 24px;
+        background-color: white;
+    }
+    #agetext{
+        text-align: center;
+    }
+    #age{
+        transition-duration: 500ms;
+        height: 32px;
+        width: 5ch;
+        margin: 0.5ch;
+        border-radius: 4px;
+        background-color: pink;
+        text-align: center;
+        transition-timing-function: ease-in-out;
+
+    }
+    #age:placeholder-shown{
+        background-color: pink;
+    }
+    #age:not(placeholder-shown){
+        background-color: white;
+    }
+    #agebtn{
+        font-size: 18px;
+        vertical-align: bottom;
+        margin: 0.5ch;
+        padding-left: 3ch;
+        padding-right: 3ch;
+    }
+    #ageForm{
+        text-align: center;
+    }
+</style>
+<body>
+<!-- page content -->
+<form id ="ageForm">
+    <span id="agetext">Give us your age</span>
+    <input type="text" id="age" name="age" placeholder="Please enter your name" />
+    <input type="submit" value="get age" id="agebtn" />
+</form>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>RAM Inspector</title>
+        <!--    <script src="/index.js"></script>-->
+    </head>
+    <body>
+
+    <p id = 'rel_ram'></p>
+    <p id = 'abs_ram'></p>
+    <button id = 'b' onclick = change_unit('b')>B</button>
+    <button id = 'kb'onclick = change_unit('kb')>KB</button>
+    <button id = 'mb'onclick = change_unit('mb')>MB</button>
+    <button id = gb onclick = change_unit('gb')>GB</button>
+
+    <script async="async">
+    <script src="/server.js" ></script>
+    <script>
+
+        let used_unit = 'b';
+
+        async function refresh(){
+            fetch('/ram').then(res => res.json()).then(result => {
+                let abs = String(result.total_mem - result.free_mem);
+                let rel = String(Math.round(((result.total_mem-result.free_mem)/result.total_mem * 100) * 100) / 100);
+                updateRAM(abs, rel);
+            });
+        }
+        function updateRAM(abs,rel){
+
+            if(used_unit == 'b'){
+                abs = String(abs) + '   B';
+            }else if (used_unit == 'kb'){
+                // abs =  String((abs/1024).toFixed(2))+ ' KB';
+                abs = String(Math.round(abs/1024 * 100)/100) + '    KB';
+            }else if(used_unit == 'mb'){
+                abs = String(Math.round(abs/1024/1024 * 100)/100) + '   MB';
+            }else if(used_unit == 'gb'){
+                abs = String(Math.round(abs/1024/1024/1024 * 100)/100) + '   GB';
+            }
+
+            document.getElementById("rel_ram").innerText = "Relative RAM used: " + abs;
+            document.getElementById("abs_ram").innerText = "Percentage of relative RAM used: "+rel + '%';
+            change_color(rel);
+        }
+        function change_color(rel){
+            if(rel <= 60){
+                document.getElementById("rel_ram").style.color = 'green';
+                document.getElementById("abs_ram").style.color = 'green';
+            }else if(rel > 60 && rel <= 80){
+                document.getElementById("rel_ram").style.color = 'black';
+                document.getElementById("abs_ram").style.color = 'black';
+            }else if(rel > 80 && rel <= 90){
+                document.getElementById("rel_ram").style.color = 'orange';
+                document.getElementById("abs_ram").style.color = 'orange';
+            }else if(rel > 90){
+                document.getElementById("rel_ram").style.color = 'red';
+                document.getElementById("abs_ram").style.color = 'red';
+            }
+
+        }
+
+        function change_unit(unit){
+            used_unit = unit;
+        }
+
+
+        setInterval(refresh,1000);
+    </script>
+    </body>
+
+    </html>

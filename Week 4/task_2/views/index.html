@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+
+	<title>Car store</title>
+</head>
+<script async src="/task_2/index.js"></script>
+<style>
+	#car-container {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-around;
+	}.car {
+
+			 height: 160px;
+			 width: 200px;
+			 margin: 1ch;
+			 padding: 1ch;
+			 box-shadow: 5px 1px;
+			 text-align: center;
+	 }
+
+	.car-specs {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
+
+	.field-name {
+		color: white;
+	}
+
+	.field-value {
+		font-weight: bold;
+	}
+
+
+	header {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+		align-items: center;
+		background-color: lightblue;
+		padding: 0 1em;
+		margin-bottom: 1em;
+		color: black;
+		box-shadow: 0 0 1em #0001;
+	}
+
+
+</style>
+<body>
+<header>
+	<div style="clear: both">
+		<a href="/" id = "home"><h1>Display all the cars!</h1></a>
+		<a href="/add" id = "add" ><h1>Add a car</h1></a>
+	</div>
+	<hr />
+
+</header>
+<script>
+fetch('/cars').then(res => res.json()).then( cars => {
+	for (const Car of cars) {
+		const carElement = document.createElement('a')
+		const car_container = document.getElementById('car-container')
+		let color = window.localStorage.getItem('color-' + Car.make.toLowerCase());
+		if (!color) {
+			color = '';
+			for (let i = 0; i < 3; ++i) {
+				color += Math.floor(Math.random() * 0x80).toString(16);
+			}
+			color = '#' + color.padStart(6, '0');
+			window.localStorage.setItem('color-' + Car.make.toLowerCase(), color);
+		}
+
+		carElement.innerHTML = `
+                        <div class="car" style="background-color: ${color}">
+                            <h3>Car</h3>
+                            <div class="car-specs car-make"><span class="field-name">Make</span><span class="field-value">${Car.make}</span></div>
+                            <div class="car-specs car-model"><span class="field-name">Model</span><span class="field-value">${Car.model}</span></div>
+                            <div class="car-specs car-mileage"><span class="field-name">Mileage</span><span class="field-value">${Car.mileage}</span></div>
+                            <div class="car-specs car-year"><span class="field-name">Year</span><span class="field-value">${Car.year}</span></div>
+                            <div class="car-specs car-plate"><span class="field-name">Plate</span><span class="field-value">${Car.plate}</span></div>
+                        </div>
+                   `;
+		carElement.addEventListener('contextmenu', e => {
+			e.preventDefault();
+
+			if (confirm('Are you sure you want to delete this car?')) {
+				fetch('/' + Car.id, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+						.then(res => {
+							if (res.status === 200) {
+								carElement.parentNode.removeChild(carElement);
+							} else {
+								return Promise.reject(res.text());
+							}
+						})
+						.catch(err => console.error(err));
+			}
+		});
+
+		car_container.appendChild(carElement);
+	}
+});
+
+
+	</script>
+<main>
+
+	<div id="car-container">
+		<!--		Cars go here-->
+	</div>
+	<p id = "testing"> </p>
+</main>
+</body>
+
+
+
+</html>

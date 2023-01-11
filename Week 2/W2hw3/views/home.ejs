@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Countdown</title>
+</head>
+<script src="/W2hw3/server.js" ></script>
+<body>
+
+<form action = '/events' method="post" id = "eventForm" >
+    <span id="nametext">Please enter your event name and date</span>
+    <input type= "name" id="name" placeholder="Enter your event" name = "name" >
+    <input type="datetime-local" id="date" name="date">
+    <button type="submit"> Add event </button>
+</form>
+
+<% if (events_list.length) {
+%>
+
+    <% events_list.forEach((event) => {
+    %>
+        <% var year =  (Date.parse(event.date) - Date.now()) /(60 * 60 * 1000 * 24* 365 ) %>
+        <% var day = (year - Math.floor(year)) * 365;%>
+        <% var hour = (day - Math.floor(day)) * 24;%>
+        <%var min = (hour - Math.floor(hour)) * 60;%>
+
+        <li> </li>
+        <li> Event name = <%=event.name%> </li>
+        <li>Time left: <%=Math.floor(year)%> years,         <%=Math.floor(day)%> days,          <%=Math.floor(hour)%> hours and         <%=Math.floor(min)%> minutes.</li>
+    <%
+    }) %>
+
+<%
+} %>
+
+
+</body>
+
+
+
+</html>

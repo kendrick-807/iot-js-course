@@ -1,0 +1,11 @@
+[
+  { "username" :"admin",
+    "password" : "d8da308ccd0cf4c331521fc8f8771507e65e9981de1959e0c76e035291024b1e6b18b9623f751acb470e2b38506066e216a5259f530817674f19f24501ca1034",
+    "id" : "0"
+
+},
+  { "username" :"kendrick",
+    "password" : "203f0b8ee18848e3d7a96a2512a50af58cf57260dcd96261cca5bbf458db51460a4c5e2d3f80389a5e49a6ab50ab7cbc240f4d9c4e85aa566e8e140eaeefd8c4",
+    "id" : "1"
+  }
+]

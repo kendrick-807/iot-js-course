@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Die</title>
+<!--    <script src="/index.js"></script>-->
+</head>
+<body>
+<!--A die image, a button and script for re-rolling a die-->
+<p>Hello!</p>
+<img src=" " alt="Logo" id="photo"/>
+<button id='click' onclick = clicked()> > Click this button to roll the dice </button>
+<script src="/index.js"></script>
+
+</body>
+<script>
+    function clicked(){
+        let randoms = Math.floor(Math.random() * 6) + 1;
+        window.location.href = '/' + randoms;
+        console.log(randoms);
+    }
+</script>
+</html>
